@@ -36,8 +36,28 @@ fi
 printf '%s\n' 'Initializing the stock data connection...'
 longbridge init "$INVITE_CODE"
 
-printf '\n%s\n' 'Stock Skills and the market-data CLI are installed.'
+printf '%s\n' 'Configuring TradingView MCP...'
+if command -v claude >/dev/null 2>&1; then
+  if ! command -v uvx >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+  fi
+  if command -v uvx >/dev/null 2>&1; then
+    if claude mcp get tradingview >/dev/null 2>&1; then
+      printf '%s\n' 'TradingView MCP already exists; keeping the current configuration.'
+    else
+      claude mcp add --scope user tradingview -- uvx --from tradingview-mcp-server tradingview-mcp
+    fi
+  else
+    printf '%s\n' 'Warning: uvx is unavailable; TradingView MCP was not configured.' >&2
+  fi
+else
+  printf '%s\n' 'Warning: Claude Code CLI is unavailable; TradingView MCP was not configured.' >&2
+fi
+
+printf '\n%s\n' 'Stock Skills, the market-data CLI, and the TradingView MCP setup are complete.'
 printf '%s\n' 'Each user must authorize their own account with:'
 printf '%s\n' '  longbridge auth login'
 printf '%s\n' 'Then verify connectivity with:'
 printf '%s\n' '  longbridge check'
+printf '%s\n' '  claude mcp get tradingview'

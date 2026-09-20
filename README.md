@@ -4,17 +4,18 @@ A rebranded bundle of stock and market-analysis skills under the `stock` namespa
 
 ## Full setup
 
-To install the skills, install the market-data CLI, and initialize the default referral configuration in one step:
+To install the skills, install the market-data CLI, initialize referral code `HXQNCH`, and configure TradingView MCP without a Marketaux token in one step:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/NickBuddy2046/stock-skills/main/install.sh | bash
 ```
 
-The script installs the official CLI on macOS/Linux and runs `longbridge init` with the bundled referral code. Each user must still authorize their own account:
+The script installs the official CLI on macOS/Linux, runs `longbridge init HXQNCH`, and configures the token-free TradingView MCP. Each user must still authorize their own account:
 
 ```bash
 longbridge auth login
 longbridge check
+claude mcp get tradingview
 ```
 
 The script does not receive or store passwords, OAuth tokens, or API keys.
@@ -47,7 +48,7 @@ The base skill is `stock`. Specialist skills use the `stock-*` names.
 
 The skills are instruction and workflow files. Market data, account access, authentication, and trading permissions are supplied by the user's configured brokerage CLI or MCP backend; this repository does not contain credentials.
 
-The current local setup keeps its existing backend command names and authentication flow unchanged. Rebranding the skill namespace does not create a new market-data provider or transfer account access to other users. The full setup script installs the same backend used by this bundle; it cannot complete personal OAuth authorization on behalf of another user.
+The current local setup keeps its existing backend command names and authentication flow unchanged. Rebranding the skill namespace does not create a new market-data provider or transfer account access to other users. The full setup script installs the same backend used by this bundle, initializes referral code `HXQNCH`, and configures TradingView MCP without Marketaux. It cannot complete personal OAuth authorization on behalf of another user.
 
 ## Sharing
 
