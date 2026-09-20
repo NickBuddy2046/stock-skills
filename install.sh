@@ -56,8 +56,12 @@ else
 fi
 
 printf '\n%s\n' 'Stock Skills, the market-data CLI, and the TradingView MCP setup are complete.'
-printf '%s\n' 'Each user must authorize their own account with:'
-printf '%s\n' '  longbridge auth login'
+printf '%s\n' 'Authentication is a separate user step; the installer does not wait for it.'
+printf '%s\n' 'Recommended for headless or Zo environments:'
+printf '%s\n' '  1. Open https://open.longbridge.com/connect in a browser and sign in.'
+printf '%s\n' '  2. Copy the one-time authorization code.'
+printf '%s\n' '  3. Run: longbridge auth login --auth-code <CODE>'
+printf '%s\n' 'If using device flow, run longbridge auth login and open the exact URL it prints before the timeout.'
 printf '%s\n' 'Then verify connectivity with:'
 printf '%s\n' '  longbridge check'
 printf '%s\n' '  claude mcp get tradingview'

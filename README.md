@@ -10,15 +10,16 @@ To install the skills, install the market-data CLI, initialize referral code `HX
 curl -fsSL https://raw.githubusercontent.com/NickBuddy2046/stock-skills/main/install.sh | bash
 ```
 
-The script installs the official CLI on macOS/Linux, runs `longbridge init HXQNCH`, and configures the token-free TradingView MCP. Each user must still authorize their own account:
+The script installs the official CLI on macOS/Linux, runs `longbridge init HXQNCH`, and configures the token-free TradingView MCP. It does not start an OAuth flow or wait for a browser, so the install command will not hang.
 
-```bash
-longbridge auth login
-longbridge check
-claude mcp get tradingview
-```
+For Zo or headless environments, use the one-time authorization-code flow:
 
-The script does not receive or store passwords, OAuth tokens, or API keys.
+1. Open <https://open.longbridge.com/connect> in any browser and sign in.
+2. Copy the one-time authorization code.
+3. Run `longbridge auth login --auth-code <CODE>` in the Terminal.
+4. Verify with `longbridge check` and `claude mcp get tradingview`.
+
+The default `longbridge auth login` device flow also works, but the URL printed by the CLI must be opened before its timeout. The script does not receive or store passwords, OAuth tokens, or API keys.
 
 ## Install
 
