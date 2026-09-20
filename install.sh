@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO="NickBuddy2046/stock-skills"
-INVITE_CODE="${STOCK_INVITE_CODE:-ERLB25}"
+INVITE_CODE="${STOCK_INVITE_CODE:-HXQNCH}"
 INSTALL_URL="https://open.longbridge.com/longbridge/longbridge-terminal/install"
 
 if ! command -v npx >/dev/null 2>&1; then
