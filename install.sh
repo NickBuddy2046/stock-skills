@@ -14,6 +14,18 @@ fi
 printf '%s\n' 'Installing Stock Skills...'
 npx skills add "$REPO" -g -y
 
+# The 'promptscript' agent (Zo Computer's own skill loader) does not support
+# global (-g) installs, so the step above installs everywhere except it.
+# Do a second, project-scoped install targeted at promptscript only, rooted
+# at the Zo workspace when present, so Zo Computer's own chat can see the
+# skills too (not just Claude Code / Codex / Hermes Agent via the global dir).
+ZO_WORKSPACE_DIR="/home/workspace"
+if [ -d "$ZO_WORKSPACE_DIR" ]; then
+  printf '%s\n' 'Installing Stock Skills for Zo Computer (project scope)...'
+  ( cd "$ZO_WORKSPACE_DIR" && npx skills add "$REPO" -y --skill '*' --agent promptscript ) \
+    || printf '%s\n' 'Warning: Zo Computer (promptscript) skill install failed; skills may still work in Claude Code/Codex but not in plain Zo Computer chat.' >&2
+fi
+
 if ! command -v longbridge >/dev/null 2>&1; then
   case "$(uname -s)" in
     Darwin|Linux)

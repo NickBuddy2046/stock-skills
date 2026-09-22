@@ -36,6 +36,14 @@ npx skills add NickBuddy2046/stock-skills -g -y
 
 The base skill is `stock`. Specialist skills use the `stock-*` names.
 
+### Note for Zo Computer users
+
+The `-g` (global) install above works for Claude Code, Codex, and Hermes Agent, but **not** for `promptscript` — the agent identifier Zo Computer's own skill loader registers under `npx skills`. That agent only supports project-scoped installs, so a global-only install leaves Zo Computer's own chat unable to see the skills even though the command reports success. `install.sh` now runs a second, project-scoped pass rooted at `/home/workspace` specifically for `promptscript` to cover this. If installing manually (not via `install.sh`), also run:
+
+```bash
+cd /home/workspace && npx skills add NickBuddy2046/stock-skills -y --skill '*' --agent promptscript
+```
+
 ## Included skills
 
 - `stock`
