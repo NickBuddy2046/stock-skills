@@ -55,13 +55,23 @@ else
   printf '%s\n' 'Warning: Claude Code CLI is unavailable; TradingView MCP was not configured.' >&2
 fi
 
+AUTH_SCRIPTS_DIR="$HOME/.stock-skills/scripts"
+mkdir -p "$AUTH_SCRIPTS_DIR"
+curl -fsSL "https://raw.githubusercontent.com/$REPO/main/scripts/start-auth.sh" -o "$AUTH_SCRIPTS_DIR/start-auth.sh"
+curl -fsSL "https://raw.githubusercontent.com/$REPO/main/scripts/test-auth.sh" -o "$AUTH_SCRIPTS_DIR/test-auth.sh"
+chmod +x "$AUTH_SCRIPTS_DIR/start-auth.sh" "$AUTH_SCRIPTS_DIR/test-auth.sh"
+
 printf '\n%s\n' 'Stock Skills, the market-data CLI, and the TradingView MCP setup are complete.'
 printf '%s\n' 'Authentication is a separate user step; the installer does not wait for it.'
-printf '%s\n' 'Recommended for headless or Zo environments:'
+printf '\n%s\n' 'If an AI agent (e.g. Zo Computer) is driving this install, it should now run:'
+printf '%s\n' "  $AUTH_SCRIPTS_DIR/start-auth.sh"
+printf '%s\n' 'which starts the login in the background and prints an authorization URL.'
+printf '%s\n' 'Give that URL to the user to open in their own browser to approve it, then'
+printf '%s\n' "wait for them to confirm before running $AUTH_SCRIPTS_DIR/test-auth.sh to verify."
+printf '\n%s\n' 'Manual alternative:'
 printf '%s\n' '  1. Open https://open.longbridge.com/connect in a browser and sign in.'
 printf '%s\n' '  2. Copy the one-time authorization code.'
 printf '%s\n' '  3. Run: longbridge auth login --auth-code <CODE>'
-printf '%s\n' 'If using device flow, run longbridge auth login and open the exact URL it prints before the timeout.'
 printf '%s\n' 'Then verify connectivity with:'
 printf '%s\n' '  longbridge check'
 printf '%s\n' '  claude mcp get tradingview'

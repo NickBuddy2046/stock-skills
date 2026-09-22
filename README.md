@@ -10,16 +10,23 @@ To install the skills, install the market-data CLI, initialize referral code `HX
 curl -fsSL https://raw.githubusercontent.com/NickBuddy2046/stock-skills/main/install.sh | bash
 ```
 
-The script installs the official CLI on macOS/Linux, runs `longbridge init HXQNCH`, and configures the token-free TradingView MCP. It does not start an OAuth flow or wait for a browser, so the install command will not hang.
+The script installs the official CLI on macOS/Linux, runs `longbridge init HXQNCH`, and configures the token-free TradingView MCP. It does not start an OAuth flow or wait for a browser, so the install command will not hang. It also downloads two helper scripts to `~/.stock-skills/scripts/`.
 
-For Zo or headless environments, use the one-time authorization-code flow:
+### Recommended for Zo Computer / AI agents: hand off a login link
+
+1. After `install.sh` finishes, run `~/.stock-skills/scripts/start-auth.sh`. It starts the device-authorization login in the background (non-blocking) and prints a one-time URL.
+2. Give that URL to the user and ask them to open it in **any browser on their own device** and approve the sign-in. Do not open it yourself or ask for the code back in chat.
+3. When the user reports they're done, run `~/.stock-skills/scripts/test-auth.sh`. It checks `longbridge auth status` and runs a live `AAPL.US` quote, printing `{"ok":true,...}` or `{"ok":false,"reason":"..."}`.
+4. If it reports `not authorized yet`, the device-flow link likely expired before the user opened it — re-run `start-auth.sh` for a fresh URL and try again.
+
+Neither script prints or stores passwords, OAuth tokens, or API keys.
+
+### Manual alternative
 
 1. Open <https://open.longbridge.com/connect> in any browser and sign in.
 2. Copy the one-time authorization code.
 3. Run `longbridge auth login --auth-code <CODE>` in the Terminal.
 4. Verify with `longbridge check` and `claude mcp get tradingview`.
-
-The default `longbridge auth login` device flow also works, but the URL printed by the CLI must be opened before its timeout. The script does not receive or store passwords, OAuth tokens, or API keys.
 
 ## Install
 
